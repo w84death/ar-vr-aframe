@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <script src="libs/aframe.min.js"></script>
+    </head>
+    <body>
+        <a-scene 
+            loading-screen="dotsColor: red; backgroundColor: black"    
+            fog="type: linear; color: #fff; near:0.1; far:14;"
+            renderer="antialias: true;
+                colorManagement: true;
+                sortObjects: true;
+                highRefreshRate: true;
+                physicallyCorrectLights: true;
+                maxCanvasWidth: 960;
+                maxCanvasHeight: 960;"
+                shadow="type:pcfsoft">
+            
+            <a-assets>
+                <!-- <img id="kj" src="kj.jpg"> -->
+                <a-asset-item id="scene1" src="scenes/scene1.glb"></a-asset-item>
+            </a-assets>
+            
+            <a-camera position="0 1.5 0">
+               
+            </a-camera>
+
+            <a-sky color="ccaf84"></a-sky>
+            <a-entity light="type: ambient; intensity: 0.5;"></a-entity>
+            <a-entity light="type: directional; castShadow: true; intensity: 4;"
+                position="5 30 5"></a-entity>
+
+            <a-gltf-model 
+                src="#scene1" 
+                position="0 0 -2" 
+                rotation="0 0 0"
+                shadow="cast: true"></a-gltf-model>
+
+        </a-scene>
+    </body>
+</html>

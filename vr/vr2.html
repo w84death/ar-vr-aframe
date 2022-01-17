@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="libs/aframe.min.js"></script>
+    <script src="libs/aframe-event-set-component.min.js"></script>
+    <script src="libs/super-hands.min.js"></script>
+  </head>
+  <body>
+    <a-scene loading-screen="dotsColor: white; backgroundColor: black"    
+      fog="type: linear; color: #fff; near:0.1; far:14;"
+      renderer="antialias: true;
+          colorManagement: true;
+          sortObjects: true;
+          highRefreshRate: true;
+          physicallyCorrectLights: true;
+          maxCanvasWidth: 960;
+          maxCanvasHeight: 960;"
+          shadow="type:pcfsoft">
+      <a-assets>
+        <img id="kj" src="assets/kj.jpg">
+      </a-assets>
+
+      <a-entity id="rig" position="0 1 2">
+        <a-entity id="camera" camera look-controls></a-entity>
+        <a-entity sphere-collider="objects: a-box" super-hands hand-controls="hand: left"></a-entity>
+        <a-entity sphere-collider="objects: a-box" super-hands hand-controls="hand: right"></a-entity>
+      </a-entity>
+
+      <!-- <a-circle rotation="-90 0 0" radius="10" color="#12324f" metalness="1" roughness="1"></a-circle> -->
+      <a-sky color="#fff"></a-sky>
+      <a-entity light="type: ambient; intensity: 0.5;"></a-entity>
+      <a-entity light="type: directional; castShadow: true; intensity: 4;"
+          position="5 30 5"></a-entity>
+
+      
+      <a-text value="Personal Home Page 2022 VR" font="assets/0xA000-Squareish-Bold-msdf.json" negate="false" color="#000" align="left"  position="-0.97 1.5 0" scale="0.25 0.25 0.25"></a-text>
+      <a-text value="Krzysztof\nKrystian\nJankowski" font="assets/0xA000-Squareish-Bold-msdf.json" negate="false" color="#000" align="left" position="-1 1.1 0" scale="1.0 1.0 1.0"></a-text>
+      
+      
+      <a-box  width="0.6" height="0.1" depth="0.02" color="#0cf" transparent opacity="0.5" position="0 0.6 0" rotation="-30 0 0"
+        hoverable grabbable stretchable draggable dropppable>
+        <a-text value="EXPERIENCE" font="assets/0xA000-Squareish-Bold-msdf.json" negate="false" color="#000" align="center"  position="0 0 0.01" scale="0.25 0.25 0.25"></a-text>
+      </a-box>
+
+      <a-box  width="0.6" height="0.1" depth="0.02" color="#0cf" transparent opacity="0.5" position="-0.7 0.6 0" rotation="-30 0 0"
+        hoverable grabbable stretchable draggable dropppable>
+        <a-text value="CONTACT" font="assets/0xA000-Squareish-Bold-msdf.json" negate="false" color="#000" align="center"  position="0 0 0.01" scale="0.25 0.25 0.25"></a-text>
+      </a-box>
+
+      <a-box position="1 1 0" rotation="0 -15 0" scale="0.7 1 0.02" color="#222" transparent opacity="0.5"
+        hoverable grabbable stretchable draggable dropppable>
+        <a-image src="#kj" position="0 0 .51" scale=".8 .8 .8">
+      </a-box>
+
+      </a-plane>
+  </a-scene>
+  
+  
+  </body>
+</html>

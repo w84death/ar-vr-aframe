@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Spacestation VR | Krzysztof Krystian Jankowski</title>
+    <script src="libs/aframe.min.js"></script>
+    <script src="libs/aframe-extras.min.js"></script>
+    <script src="libs/super-hands.min.js"></script>
+</head>
+
+<body>
+    <a-scene 
+        loading-screen="dotsColor: white; backgroundColor: black"
+        renderer="maxCanvasWidth: 960; maxCanvasHeight: 960; antialias: true; colorManagement: true; sortObjects: true; highRefreshRate: true; physicallyCorrectLights: true;" 
+        shadow="type:pcfsoft">
+
+        <!-- ---------------------- ASSETS ----------------------  -->
+        <a-assets>
+            <img id="sky" src="assets/skybox-space.jpg">
+            <img id="moon" src="assets/moon.jpg">
+            <a-asset-item id="spacestation" src="scenes/space-station-vr.glb"></a-asset-item>
+            <audio id="noise" src="assets/noise1.mp3" preload="auto"></audio>
+            <a-asset-item id="desk" src="scenes/desk.glb"></a-asset-item>
+            <a-asset-item id="mug" src="scenes/mug.glb"></a-asset-item>
+        </a-assets>
+
+        <!-- ---------------------- CAMERA ----------------------  -->
+        <a-entity>
+            <a-camera position="0 1.7 0" wasd-controls="enabled:false"></a-camera>
+            <a-entity sphere-collider="objects: a-box" super-hands hand-controls="hand: left"></a-entity>
+            <a-entity sphere-collider="objects: a-box" super-hands hand-controls="hand: right"></a-entity>
+        </a-entity>
+
+        <!-- ---------------------- ENVIRONMENT ----------------------  -->
+        <a-sky src="#sky"></a-sky>
+        <a-entity light="type: ambient; intensity: 0.5;"></a-entity>
+        <a-entity sound="src: #noise; autoplay: true; loop:true;"></a-entity>
+        <a-gltf-model src="#spacestation" shadow="cast:true;">
+            <a-entity light="type: point; intensity: 10; castShadow:true;" position="0.315 2.741 -0.484"></a-entity>
+            <a-entity light="type: point; intensity: 25; color:#0091fb;" position="24 3.3 9.6"></a-entity>
+            <a-entity light="type: point; intensity: 25; color:#ff1c1c;" position="-24 3.3 9.6"></a-entity>
+            <a-gltf-model src="#desk" static-body></a-gltf-model>
+        </a-gltf-model>
+
+        <a-sphere src="#moon" radius="150" position="180 52 -400"></a-sphere>
+
+        <!-- ---------------------- PROPS ----------------------  -->
+        <a-entity  position="-0.615 0.873 -0.837">
+            <a-box hoverable grabbable draggable dropppable color="blue" position="0.2 0 0" width=".1" height=".1" depth=".1" animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"></a-box>
+            <a-box hoverable grabbable draggable dropppable color="red" position="0 0 0" width=".1" height=".1" depth=".1"></a-box>
+            <a-box hoverable grabbable draggable dropppable color="yellow" position="-.2 0 0" width=".1" height=".1" depth=".1"></a-box>
+        </a-entity>
+
+        <a-entity position="-13.520 3.927 0.894" rotation="0 90 0">
+            <a-text value="Personal Home Page 2022 VR" font="assets/0xA000-Squareish-Bold-msdf.json" negate="false" color="#3f3" align="left"  position="0 0 0" width="7"></a-text>
+            <a-text value="Krzysztof\nKrystian\nJankowski" font="assets/0xA000-Squareish-Bold-msdf.json" negate="false" color="#3f3" align="left" position="0 -1.1 0" width="15"></a-text>
+        </a-entity>
+
+        <a-entity position="0 0.823 -0.837" rotation="0 0 0" hoverable grabbable draggable dropppable>
+            <a-gltf-model src="#mug">
+                <a-box position="0.08 0.052 0" width="0.05" height="0.1" depth="0.05" visible="false"></a-box>
+            </a-gltf-model>
+        </a-entity>
+
+        <a-entity position="0.499 0.841 -0.594" rotation="-90 0 0" hoverable grabbable draggable dropppable>
+            <a-box position="0 0 0" width="0.4" height="0.3" depth="0.02" color="white" roughness="0.3" metalness="0.7" ></a-box>
+            <a-box position="0 0 .01" width="0.35" height="0.25" depth="0.01" color="black" roughness="0.1" metalness="0" ></a-box>
+            <a-text value="IBM Pad 1.0\nBooting system...\n128KB RAM\nKernel v7.77\n\nC:>_" font="assets/0xA000-Squareish-Bold-msdf.json" negate="false" color="#fff" align="left" position="-0.170 0 0.015" width="0.9"></a-text>
+        </a-entity>
+
+        <a-entity position="-0.499 0.841 -0.594" rotation="-90 0 0" hoverable grabbable draggable dropppable>
+            <a-box position="0 0 0" width="0.4" height="0.3" depth="0.02" color="white" roughness="0.3" metalness="0.7" ></a-box>
+            <a-box position="0 0 .01" width="0.35" height="0.25" depth="0.01" color="black" roughness="0.1" metalness="0" ></a-box>
+            <a-text value="IBM Pad 1.0\n\nAny team with good leadership can accomplish impossible tasks.\n\nGood leaders share their knowledge and inspire others. His extensive experience of every step of the production process helps estimate and organize work. He knows how important is quality to the last detail. " font="assets/0xA000-Squareish-Bold-msdf.json" negate="false" color="#fff" align="left" position="-0.170 0 0.015" width="0.3"></a-text>
+        </a-entity>
+    </a-scene>
+
+</body>
+</html>
