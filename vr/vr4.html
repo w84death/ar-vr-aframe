@@ -1,6 +1,11 @@
-<html>
+<!doctype html>
+<!-- <html lang="en" manifest="v4.manifest"> -->
+<html lang="en">
   <head>
+    <meta charset="UTF-8">
     <title>Space Station VR // Krzysztof Krystian Jankowski</title>
+    <link rel="icon" href="/2022/kkj_2022_fav.svg" />
+    
     <script src="libs/physics/aframe.min.js"></script>
     <script src="libs/aframe-extras.min.js"></script>
     <script src="libs/physics/super-hands.min.js"></script>
@@ -13,23 +18,25 @@
   <body>
         <a-scene  physics webxr="requiredFeatures: viewer;"
         loading-screen="dotsColor: white; backgroundColor: black"
-        renderer="maxCanvasWidth: 960; maxCanvasHeight: 960; antialias: true; colorManagement: true; sortObjects: true; highRefreshRate: true; physicallyCorrectLights: true;" 
-        shadow="type:pcfsoft">
+        renderer="maxCanvasWidth: 640; maxCanvasHeight: 640; 
+          antialias: true; 
+          colorManagement: true; 
+          sortObjects: true; 
+          highRefreshRate: false; 
+          physicallyCorrectLights: true;"
+          fog="type: linear; color: #beb6ab; near:4; far:1000;">
 
       <a-assets>
-        <img id="sky" src="assets/skybox-space.jpg">
-        <img id="moon" src="assets/moon.jpg">
-        <a-asset-item id="spacestation" src="scenes/space-station-vr2.glb"></a-asset-item>
-        <audio id="noise" src="assets/noise1.mp3" preload="auto"></audio>
-        <a-asset-item id="desk" src="scenes/desk.glb"></a-asset-item>
-        <a-asset-item id="humanoid" src="scenes/humanoid.glb"></a-asset-item>
-        
+        <a-asset-item id="scene" src="scenes/icbm-launch-facility.glb"></a-asset-item>
+        <img id="sky" src="assets/TexturesCom_HDRPanorama004_park_1K_hdri_sphere_tone.jpg">
+        <!-- <audio id="noise" src="assets/wind.mp3" preload="auto"></audio> -->
+
         <a-mixin id="cube" geometry="primitive: box; width: 0.13; height: 0.13; depth: 0.13"
                  hoverable grabbable stretchable draggable
                  event-set__hoveron="_event: hover-start; material.opacity: 0.7; transparent: true"
                  event-set__hoveroff="_event: hover-end; material.opacity: 1; transparent: false"
-                 dynamic-body shadow></a-mixin>
-       
+                 dynamic-body></a-mixin>
+
         <a-mixin id="touch"
                  physics-collider phase-shift
                  collision-filter="collisionForces: false"
@@ -37,74 +44,42 @@
                  super-hands="colliderEvent: collisions;
                               colliderEventProperty: els;
                               colliderEndEvent: collisions;
-                              colliderEndEventProperty: clearedEls;">
-        </a-mixin>
+                              colliderEndEventProperty: clearedEls;"></a-mixin>
       </a-assets>
 
       <!-- ---------------------- CAMERA ----------------------  -->
       <a-entity id="cameraRig" 
-        movement-controls="constrainToNavMesh: false;" 
+        movement-controls="constrainToNavMesh: true;" 
         wasd-controls="enabled:false"
         navigator="cameraRig: #cameraRig; cameraHead: #head; collisionEntities: .collision; ignoreEntities: .clickable" 
         position="0 0 0" rotation="0 0 0"
         gamepad-controls>
-        <!-- camera -->
-        <a-entity id="head" camera="active: true" position="0 1.6 0" look-controls="pointerLockEnabled: true; reverseMouseDrag: false" ></a-entity>
-          <a-entity id="leftHand" mixin="touch" hand-controls="hand: left; handModelStyle: lowPoly; color: #fff" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; button: trigger; curveShootingSpeed: 18; landingMaxAngle: 60" visible="true"></a-entity>
-          <a-entity id="rightHand" mixin="touch" hand-controls="hand: right; handModelStyle: lowPoly; color: #fff" laser-controls raycaster="showLine: true; far: 10; interval: 0; objects: .clickable, a-link;" line="color: #7c00fc; opacity: 0.15" visible="true"></a-entity>
+        <a-entity id="head" camera="active: true" position="0 1.6 0" look-controls="pointerLockEnabled: true; reverseMouseDrag: false"></a-entity>
+        <a-entity id="leftHand" mixin="touch" hand-controls="hand: left; color: #332710" 
+          teleport-controls="collisionEntities:#navmeshMain; cameraRig: #cameraRig; teleportOrigin: #head; button: trigger; curveShootingSpeed: 18; landingMaxAngle: 60" visible="true"></a-entity>
+        <a-entity id="rightHand" mixin="touch" hand-controls="hand: right; color: #332710"></a-entity>
       </a-entity>
 
-
+      <!-- ---------------------- TEPEPORTS ----------------------  -->
+      <a-box id="navmeshMain" position="0.000 0 0" width="32" height="0.01" depth="24" visible="false"></a-box>
         
-        <!-- ---------------------- ENVIRONMENT ----------------------  -->
-        <a-sky src="#sky" animation="property: rotation; to: 0 360 0; loop: true; dur: 1800000; easing: linear"></a-sky>
-        <a-entity light="type: ambient; intensity: 0.5;"></a-entity>
-        <a-sphere src="#moon" radius="150" position="180 52 -400" animation="property: rotation; to: 0 -360 0; loop: true; dur: 1000000; easing: linear"></a-sphere>
-        
-        <a-gltf-model src="#spacestation" shadow="cast:false;" > 
-            <!-- ---------------------- LIGHTING ----------------------  -->
-            <a-entity light="type: point; intensity: 4; castShadow:false;" position="0 2.741 0"></a-entity>
-            <a-entity light="type: point; intensity: 4; castShadow:false;" position="-7 3.630 -8.735"></a-entity>
-            <a-entity light="type: point; intensity: 4; castShadow:false;" position="7 3.630 -8.735"></a-entity>
+      <!-- ---------------------- ENVIRONMENT / LIGHTING ----------------------  -->
+      <a-sky src="#sky"></a-sky>
+      <a-entity light="type: ambient; intensity: 1;"></a-entity>
+      <a-entity light="type: directional; intensity: 6;" position="-4 8 0"></a-entity>
 
-            <!-- ---------------------- ENTITIES ----------------------  -->
-            <a-gltf-model src="#desk" static-body></a-gltf-model>            
-            <a-gltf-model src="#humanoid" animation-mixer="clip: Desk" position="3.797 0.210 0" rotation="0 -92 0" 
-            animation="property: rotation; to: 0 -360 0; loop: false; dur: 300; easing: linear; startEvents: gamepadbuttondown:3"></a-gltf-model>
-            <a-gltf-model src="#humanoid" animation-mixer="clip: Desk" position="3.840 0.210 2.721" rotation="0 -88.042 0"></a-gltf-model>
-            <a-gltf-model id="humanoid" src="#humanoid" animation-mixer="clip: Hello; crossFadeDuration:0.5" position="-1.942 0.038 -2.246" rotation="0 -151.106 0"></a-gltf-model>
+      
+      <a-gltf-model src="#scene" shadow="cast:false;"> 
+          <!-- ---------------------- LIGHTING ----------------------  -->
+          <!-- ---------------------- ENTITIES ----------------------  -->
+          <!-- ---------------------- SOUNDS ----------------------  -->
+      </a-gltf-model>
 
-            <!-- ---------------------- SOUNDS ----------------------  -->
-            <a-entity sound="src: #noise; autoplay: true; loop:true;" position="-5.042 0.760 1.504"></a-entity>
-            <a-entity sound="src: #noise; autoplay: true; loop:true;" position="4.933 0.760 4.197"></a-entity>
-        </a-gltf-model>
-        
-        
-
-
-        <a-entity position="-2.2594 3.101 -7.896" rotation="0 0 0">
-            <a-text value="Personal Home Page 2022 VR" font="assets/0xA000-Squareish-Bold-msdf.json" negate="false" color="#fff" opacity=".5" align="left"  position="0 0 0" width="7"></a-text>
-            <a-text value="Krzysztof\nKrystian\nJankowski" font="assets/0xA000-Squareish-Bold-msdf.json" negate="false" color="#fff" opacity=".8" align="left" position="0 -1.1 0" width="15"></a-text>
+        <a-entity position="-1 2 8.246" rotation="0 180 0">
+            <a-text position="0 0 0" value="ICBM LAUNCH FACILITY" font="assets/0xA000-Squareish-Bold-msdf.json" negate="false" color="#f8f8f8" opacity=".75" align="center" width="7"></a-text>
+            <a-text position="0 -0.5 0" value="Build by\nKrzysztof Krystian Jankowski\nJanuary 2022" font="assets/0xA000-Squareish-Bold-msdf.json" negate="false" color="#f8f8f8" opacity=".75" align="center"   width="4"></a-text>
         </a-entity>
-            
-        <a-entity class="cube" mixin="cube" position="0 1.265 -0.7" material="color:white; metalness:1.0; roughness:0.248;"></a-entity>
-        <a-entity class="cube" mixin="cube" position="-0.2 1.265 -0.7"  material="color:white; metalness:1.0; roughness:0.248;"></a-entity>
-        <a-entity class="cube" mixin="cube" position="0.2 1.265 -0.7"  material="color:white; metalness:1.0; roughness:0.248;"></a-entity>
-        <a-entity class="cube" mixin="cube" position="0 1.265 -0.5" material="color:#FFA8F2; metalness:0.0; roughness:0.354;"></a-entity>
-        <a-entity class="cube" mixin="cube" position="-0.2 1.265 -0.5" material="color:#89DBFF; metalness:0.0; roughness:0.354;"></a-entity>
-        <a-entity class="cube" mixin="cube" position="0.2 1.265 -0.5" material="color:#C1FFB0; metalness:0.0; roughness:0.354;"></a-entity>
-      
-        <a-box static-body width="100" height="0.01" depth="100" visible="false"></a-box>
-      
-        <a-box position="0.499 1.5 -0.594" rotation="-90 0 0"
-            geometry="primitive: box; width: 0.4; height: 0.3; depth: 0.02"
-            material="color:white; metalness:1.0; roughness:0.248;"
-            hoverable grabbable stretchable draggable
-            event-set__hoveron="_event: hover-start; material.opacity: 0.7; transparent: true"
-            event-set__hoveroff="_event: hover-end; material.opacity: 1; transparent: false"
-            dynamic-body shadow>        
-        </a-box>
-
+     
     </a-scene>
 
  </body>

@@ -4,6 +4,8 @@
     <script src="libs/aframe.min.js"></script>
     <script src="libs/aframe-event-set-component.min.js"></script>
     <script src="libs/super-hands.min.js"></script>
+    <script src="libs/aframe-ui-widgets.min.js"></script>
+
   </head>
   <body>
     <a-scene loading-screen="dotsColor: white; backgroundColor: black"    
@@ -16,45 +18,72 @@
           maxCanvasWidth: 960;
           maxCanvasHeight: 960;"
           shadow="type:pcfsoft">
+          
       <a-assets>
         <img id="kj" src="assets/kj.jpg">
       </a-assets>
 
       <a-entity id="rig" position="0 1 2">
-        <a-entity id="camera" camera look-controls></a-entity>
+        <a-entity id="camera" camera look-controls>
+          <a-cursor></a-cursor>
+        </a-entity>
+        
         <a-entity sphere-collider="objects: a-box" super-hands hand-controls="hand: left"></a-entity>
         <a-entity sphere-collider="objects: a-box" super-hands hand-controls="hand: right"></a-entity>
       </a-entity>
 
-      <!-- <a-circle rotation="-90 0 0" radius="10" color="#12324f" metalness="1" roughness="1"></a-circle> -->
       <a-sky color="#fff"></a-sky>
       <a-entity light="type: ambient; intensity: 0.5;"></a-entity>
       <a-entity light="type: directional; castShadow: true; intensity: 4;"
           position="5 30 5"></a-entity>
 
-      
-      <a-text value="Personal Home Page 2022 VR" font="assets/0xA000-Squareish-Bold-msdf.json" negate="false" color="#000" align="left"  position="-0.97 1.5 0" scale="0.25 0.25 0.25"></a-text>
-      <a-text value="Krzysztof\nKrystian\nJankowski" font="assets/0xA000-Squareish-Bold-msdf.json" negate="false" color="#000" align="left" position="-1 1.1 0" scale="1.0 1.0 1.0"></a-text>
-      
-      
-      <a-box  width="0.6" height="0.1" depth="0.02" color="#0cf" transparent opacity="0.5" position="0 0.6 0" rotation="-30 0 0"
-        hoverable grabbable stretchable draggable dropppable>
-        <a-text value="EXPERIENCE" font="assets/0xA000-Squareish-Bold-msdf.json" negate="false" color="#000" align="center"  position="0 0 0.01" scale="0.25 0.25 0.25"></a-text>
-      </a-box>
-
-      <a-box  width="0.6" height="0.1" depth="0.02" color="#0cf" transparent opacity="0.5" position="-0.7 0.6 0" rotation="-30 0 0"
-        hoverable grabbable stretchable draggable dropppable>
-        <a-text value="CONTACT" font="assets/0xA000-Squareish-Bold-msdf.json" negate="false" color="#000" align="center"  position="0 0 0.01" scale="0.25 0.25 0.25"></a-text>
-      </a-box>
-
-      <a-box position="1 1 0" rotation="0 -15 0" scale="0.7 1 0.02" color="#222" transparent opacity="0.5"
-        hoverable grabbable stretchable draggable dropppable>
-        <a-image src="#kj" position="0 0 .51" scale=".8 .8 .8">
-      </a-box>
-
-      </a-plane>
+      <a-entity>
+        <a-text value="Personal Home Page 2022 VR" font="assets/0xA000-Squareish-Bold-msdf.json" negate="false" color="#000" align="left"  position="-0.97 2.5 0" scale="0.25 0.25 0.25"></a-text>
+        <a-text value="Krzysztof\nKrystian\nJankowski" font="assets/0xA000-Squareish-Bold-msdf.json" negate="false" color="#000" align="left" position="-1 2.1 0" scale="1.0 1.0 1.0"></a-text>
+      </a-entity>
+      <a-box id="mytarget" position="0 1.5 -2"></a-box>
+      <a-entity id="mybutton" ui-button position="-.5 1.5 1.5"></a-entity> 
+      <a-entity id="toggleSwitch" ui-toggle position=".5 1.5 1" ui-toggle="value: 1"></a-entity>
+      <a-entity id="rotaryKnob" ui-rotary position="0.5 1.5 1.5"></a-entity>
+      <a-entity id="valueSliderX" ui-slider position="0 1.5 1" min=0 max=100></a-entity>
+      <a-entity id="valueSliderY" ui-slider position="0 1.5 1.25" min=0 max=100></a-entity>
   </a-scene>
   
-  
+  <script>
+    var buttonCustom = document.querySelector('#mybutton');
+    targetEntity = document.querySelector('#mytarget');
+
+    buttonCustom.addEventListener('pressed', function(e) {
+      var randomHexColor = Math.floor(Math.random() * 0xffffff).toString(16);
+      targetEntity.setAttribute('material', {
+        color: '#' + randomHexColor
+      });
+    });
+
+    var valueSliderX = document.querySelector('#valueSliderX');
+    var valueSliderY = document.querySelector('#valueSliderY');
+    valueSliderX.addEventListener('change', function(e) {
+      targetEntity.setAttribute('position', {x: e.detail.value, y: 1.5, z: -2});
+    });
+    valueSliderY.addEventListener('change', function(e) {
+      targetEntity.setAttribute('position', {x: 0, y: e.detail.value, z: -2});
+    });
+
+    var rotaryKnob = document.querySelector('#rotaryKnob');
+    rotaryKnob.addEventListener('change', function(e) {
+      var value = e.detail.value;
+      targetEntity.setAttribute('rotation', {x: 0, y: value, z: 0});
+    });
+
+    var toggleSwitch = document.querySelector('#toggleSwitch');
+    toggleSwitch.addEventListener('change', function(e) {
+      if (e.detail.value) {
+        targetEntity.setAttribute('opacity', 1);
+      } else {
+        targetEntity.setAttribute('opacity', 0.1);
+      }
+    });
+
+  </script>
   </body>
 </html>
